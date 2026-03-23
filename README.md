@@ -15,10 +15,9 @@ My goal is to share practical tips across the entire analytical stack: from navi
 5. [Single-cell with BD rhapsody processing & Reporting (Coming Soon)](#)
 6. [Spectral cytometry processing & Reporting (Coming Soon)](#)
 
-
 ---
 
-## 🏎️ 1. HPC & Infrastructure: Taming the Ferrari
+## 1. HPC & Infrastructure: Taming the Ferrari
 Accessing a cluster is only 10% of the battle. Here is how to handle the other 90%.
 
 ### 🔑 1.1 The "One-Word" Login (SSH Aliases)
