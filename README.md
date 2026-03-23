@@ -1,10 +1,11 @@
 # 🧬 Bioinfo-hacks
 ## From Raw Data to Reproducible Scientific Insights
 
-Welcome! This repository is a living collection of the **"Quality of Life" (QoL) hacks**, configurations, and best practices I use to make my daily work more efficient.
+Welcome! This repository is a living collection of the "Quality of Life" (QoL) hacks, configurations, and best practices I use to make my daily work more efficient.
+
+As a PhD in Bioinformatics with a background in Omics and HPC, I am currently setting up the analytical pipelines for two specialized platforms (Genomics & Cytometry). This repository documents that journey: building a clean, robust, and fast environment from the ground up.
 
 My goal is to share practical tips across the entire analytical stack: from navigating the HPC environment and running Nextflow pipelines to processing diverse data—including Spectral Cytometry, Single-Cell, RNA-seq, and smallRNA. Finally, I’ll show how I turn that data into high-impact visualizations to generate client reports.
-
 ---
 
 ## 📑 Roadmap of Hacks
