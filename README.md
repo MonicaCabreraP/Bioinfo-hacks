@@ -18,7 +18,7 @@ My goal is to share practical tips across the entire analytical stack: from navi
 ---
 
 ## 1. HPC & Infrastructure: Taming the Ferrari
-Accessing a cluster is only 10% of the battle. Here is how to handle the other 90%.
+Accessing a HPC cluster is only 10% of the battle. Here is how to handle the other 90%:
 
 ### 🔑 1.1 The "One-Word" Login (SSH Aliases)
 Stop typing long server addresses and your password 20 times a day. Ssh works on Mac, Linux, and Windows (PowerShell/WSL). 
