@@ -54,19 +54,19 @@ Tired of typing your password 20 times a day? Link your workstation to the clust
 ### 📂 1.3 Mounting the Cluster as a Local Drive
 The terminal is king for processing, but humans like folders. Let's make your HPC feel like a local drive.
 
-- **Mac** (Native/No Software):
-    1. Open Finder.
-    2. Press Cmd + K (or go to Go > Connect to Server).
-    3. Type: ```sftp://my_cluster (using your alias from 1.1!).```
-    4. Hit Connect. (Note: This creates a network location in your sidebar).
+   - **Mac** (Native/No Software):
+   1. Open Finder.
+   2. Press Cmd + K (or go to Go > Connect to Server).
+   3. Type: ```sftp://my_cluster (using your alias from 1.1!).```
+   4. Hit Connect. (Note: This creates a network location in your sidebar).
 
-- **Linux (GNOME/Ubuntu)**:
+   - **Linux (GNOME/Ubuntu)**:
    1. Open your File Manager (Files).
    2. Click on "+ Other Locations" at the bottom of the sidebar.
    3. In the "Connect to Server" box, type: sftp://my_cluster.
    4. Hit Connect.
  
-- **Windows**: Use Cyberduck or WinSCP to mount your HPC storage via SFTP.
+   - **Windows**: Use Cyberduck or WinSCP to mount your HPC storage via SFTP.
 
 
 Maintained with ☕ by Monica @ IGTP
