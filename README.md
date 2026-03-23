@@ -60,6 +60,12 @@ The terminal is king for processing, but humans like folders. Let's make your HP
    3. Type: ```sftp://my_cluster (using your alias from 1.1!).```
    4. Hit Connect. (Note: This creates a network location in your sidebar).
 
+   *Note*: If you get a "File couldn't be opened" error or If you want a permanent, stable drive on your desktop, use the Pro method below:
+   ```brew install --cask macfuse```
+   ```brew install gromgit/fuse/sshfs```
+   ```mkdir ~/hpc``` 
+   ```shfs my_cluster: ~/hpc```
+
    - **Linux (GNOME/Ubuntu)**:
    1. Open your File Manager (Files).
    2. Click on "+ Other Locations" at the bottom of the sidebar.
