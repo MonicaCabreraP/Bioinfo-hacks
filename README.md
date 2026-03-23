@@ -44,7 +44,7 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
 ### 🔓 1.2 Level Up: Passwordless Entry (SSH Keys)
 Tired of typing your password 20 times a day? Link your workstation to the cluster securely using SSH Keys. This is not just about speed; it is the foundation for automating data transfers and pipeline triggers.
 
-1. **Generate a secure key on your local machine:** Run ```ssh-keygen -t rsa -b 4096``` in your terminal and press Enter for all prompts.
+1. **Generate a secure key on your local machine:** Run ```ssh-keygen -t ed25519``` in your terminal and press Enter for all prompts.
    
 2. **Copy the public key to your cluster:** Use the alias name you created in step 1.1 (e.g., my_cluster or monica):``` ssh-copy-id my_cluster```
 (Note: You will have to type your password one last time here to authorize the key).
