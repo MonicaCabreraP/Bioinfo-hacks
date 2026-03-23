@@ -1,4 +1,4 @@
-# Bioinfo-hacks 🧬: From Raw Data to Reproducible Scientific Insights
+# 🧬Bioinfo-hacks: From Raw Data to Reproducible Scientific Insights
 
 Welcome! This repository is a living collection of the **"Quality of Life" (QoL) hacks**, configurations, and best practices I use to make my daily work more efficient.
 
