@@ -30,11 +30,12 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
    
 2. Press i to insert and paste this universal template:
      ```
-    Host my_cluster (Note: Change my_cluster to whatever nickname you want, like monica).
+    Host my_cluster 
         HostName hpc.your-institute.edu
         User your_username
         Port X
     ```
+   Note: Change my_cluster to whatever nickname you want, like monica.
 3. **Save and Exit**: Press Esc, then type :wq and hit Enter.
 
 4. **The Result**: Instead of typing ssh -p X your_username@hpc.your-institute.edu, you just type: ``` ssh my_cluster``` ...and you are in! (You will still need your password for now).
