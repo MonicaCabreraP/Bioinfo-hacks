@@ -43,12 +43,13 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
 ### 🔓 1.2 Level Up: Passwordless Entry (SSH Keys)
 Tired of typing your password 20 times a day? Link your workstation to the cluster securely using SSH Keys. This is not just about speed; it is the foundation for automating data transfers and pipeline triggers.
 
-1. **Generate a secure key on your local machine:** Run ```ssh-keygen -t ed25519``` in your terminal and press Enter for all prompts.
+1. Run ```ssh-keygen -t ed25519``` in your terminal and press Enter for all prompts to generate a secure key on your local machine.
    
-2. **Copy the public key to your cluster:** Use the alias name you created in step 1.1 (e.g., my_cluster or monica):``` ssh-copy-id my_cluster```
-(Note: You will have to type your password one last time here to authorize the key).
+2. Type ``` ssh-copy-id my_cluster``` to copy the public key to your cluster.
+   *Note*: Use the alias name you created in step 1.1 (e.g., my_cluster) or monica)
+           You will have to type your password one last time here to authorize the key).
 
-3. **The Result**: From now on, simply type ```ssh my_cluster``` ...and you are in instantly. No password prompt, no friction. 🏎️💨
+4. Simply type ```ssh my_cluster``` ...and you are in instantly. No password prompt, no friction. 🏎️💨
 
 ### 📂 1.3 Mounting the Cluster as a Local Drive
 The terminal is king for processing, but humans like folders. Let's make your HPC feel like a local drive.
