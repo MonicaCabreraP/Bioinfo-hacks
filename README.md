@@ -61,7 +61,7 @@ The terminal is king for processing, but humans like folders. Let's make your HP
 3. In the "Connect to Server" box, type: ```sftp://my_cluster``` (using the alias from 1.1).
 4. Hit Connect. It will appear as a mounted drive in your sidebar.
 
-**Windows**: Use Cyberduck or WinSCP to mount your HPC storage via SFTP.
+🪟 **Windows**: Use Cyberduck or WinSCP to mount your HPC storage via SFTP.
 
 🍎 **For Mac**:
 
