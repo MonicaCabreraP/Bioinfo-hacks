@@ -36,9 +36,9 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
         Port X
     ```
    Note: Change my_cluster to whatever nickname you want, like monica.
-3. **Save and Exit**: Press Esc, then type :wq and hit Enter.
+3. Press Esc, then type :wq and hit Enter.
 
-4. **The Result**: Instead of typing ssh -p X your_username@hpc.your-institute.edu, you just type: ``` ssh my_cluster``` ...and you are in! (You will still need your password for now).
+4. Type: ``` ssh my_cluster``` . Instead of typing ssh -p X your_username@hpc.your-institute.edu, you just and you are in! (You will still need your password for now).
 
 ### 🔓 1.2 Level Up: Passwordless Entry (SSH Keys)
 Tired of typing your password 20 times a day? Link your workstation to the cluster securely using SSH Keys. This is not just about speed; it is the foundation for automating data transfers and pipeline triggers.
