@@ -105,10 +105,9 @@ This creates a stable, permanent drive on your desktop.
    source ~/.zshrc
    ```
 6. Usage & Maintenance
-   1. To Connect: Just type hpc in your terminal.
-   2. To Disconnect: ```diskutil unmount force ~/hpc```
-   
-(Tip: Use this if the folder looks empty or the connection "freezes" after your Mac wakes up from sleep).
+   1. **To Connect**: Just type ```hpc``` in your terminal.
+   2. **To Disconnect**: Type ```diskutil unmount force ~/hpc```
+   (Tip: Use this if the folder looks empty or the connection "freezes" after your Mac wakes up from sleep).
 
 ## 🏆 **The Result**: Your HPC is now a native hard drive on your desktop. > Forget the terminal for a second—you can now browse cluster folders, double-click to open PDFs, and preview UMAP plots instantly in your local apps.
 
