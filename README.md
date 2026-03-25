@@ -9,20 +9,21 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 ---
 
 ## 📑 Roadmap of Hacks
-1. [HPC & Infrastructure (Current)](#1-hpc--infrastructure-taming-the-ferrari)
-2. [Nextflow (Coming Soon)](#)
-3. [smRNA processing & Reporting (Coming Soon)](#)
-4. [RNA processing & Reporting (Coming Soon)](#)
-5. [Single-cell (BD Rhapsody) & Reporting (Coming Soon)](#)
-6. [Spectral cytometry & Reporting (Coming Soon)](#)
+1. [HPC: Easy Login](#1-hpc-part-i---the-ignition-easy-login)
+2. [HPC: Submitting a Job](#2-hpc-part-ii---the-gearbox-submitting-a-job)
+3. [Nextflow (Coming Soon)](#)
+4. [smRNA processing & Reporting (Coming Soon)](#)
+5. [RNA processing & Reporting (Coming Soon)](#)
+6. [Single-cell (BD Rhapsody) & Reporting (Coming Soon)](#)
+7. [Spectral cytometry & Reporting (Coming Soon)](#)
 
 ---
 
-# 1. HPC & Infrastructure: Taming the Ferrari
+# 1. HPC Part I - 🔥 The Ignition: Easy Login 
+
 Accessing an HPC cluster is only 10% of the battle. Here is the shortcut to make a remote server feel like your own computer.
 
-💡 **The Hack**:
-Stop using scp for every plot. By the end of this section, your cluster folders will appear in your sidebar just like a USB drive. You can browse UMAPs, double-click PDFs, and drag-and-drop files directly from your File Manager as if they were on your desktop.
+💡 **The Hack**: Stop using scp for every plot. By the end of this section, your cluster folders will appear in your sidebar just like a USB drive. You can browse UMAPs, double-click PDFs, and drag-and-drop files directly from your File Manager as if they were on your desktop.
 
 ### 🔑 1.1 The "One-Word" Login (SSH Aliases)
 Stop typing long server addresses and port numbers every 10 minutes. Create a shortcut in your local ~/.ssh/config file (works on Mac, Linux, and Windows/WSL).
@@ -113,7 +114,69 @@ This creates a stable, permanent drive on your desktop.
 
 #Full GUI access with zero manual scp commands. 🏎️💨
 
+# 2. HPC Part II - ⚙️ The Gearbox: Submitting a Job 
+Once inside, it's time to use the actual engine.
 
+⚠️ The Golden Rule: Never run analysis on the Login Node. The login node is the "parking lot"—it’s for editing scripts and moving files. If you start a heavy process there, you'll slow down the cluster for everyone and the sysadmin will kill your process immediately.
+
+To access the compute power, we use the Slurm workload manager.
+
+## 🛠️ 2.1 The "Under the Hood" Debugging (Interactive salloc)
+Most users only know how to send a script and wait. But what if you need to debug a command or compile a tool in real-time?
+
+💡 **The Hack**: Use *salloc* to reserve resources and work directly on a compute node. It’s like getting a VIP pass to the garage.
+
+1. Request the "Lane" (Allocation):
+
+```Bash
+# Request 1 task for 2 hours
+salloc -n 1 -t 02:00:00
+```
+
+2. Start the Engine (The Task):
+Once granted, launch your interactive shell on that reserved node:
+
+```Bash
+srun --pty bash
+```
+
+## 📝 2.2 The "Autopilot" (Batch Job Submission)
+For production-scale analysis, you don't want to stay connected to the terminal. You create a submission script and let the cluster handle the heavy lifting while you focus on other tasks.
+
+1. Create your script (e.g., submit_job.sh) and paste this template:
+```Bash
+#!/bin/bash
+#SBATCH --job-name=my_analysis        # Name of your job
+#SBATCH --output=logs/%j_res.log      # Standard output/error log (%j = Job ID)
+#SBATCH --partition=short             # Partition/Queue (e.g., short, long, gpu)
+#SBATCH --ntasks=1                    # Number of tasks
+#SBATCH --cpus-per-task=4             # Number of CPU cores per task
+#SBATCH --mem=16G                     # Memory (RAM) per node
+#SBATCH --time=04:00:00               # Time limit (HH:MM:SS)
+
+# 1. Load the required environment (Tcl modules)
+module load <software_name>
+module load <dependency_name>
+
+# 2. Run your analysis
+# Replace this with your actual command (Python, R, Nextflow, etc.)
+python my_script.py --input data/sample_01.txt --threads 4
+```
+2. Submit the job to the cluster:
+```Bash
+sbatch submit_job.sh
+```
+## 🏎️ 2.3 Monitoring the Race (The Pit Wall)
+Once submitted, you need to track your performance to ensure you aren't "crashing":
+
+- Check the Queue: ```squeue -u your_username``` To see if your job is Pending or Running
+- Cancel a Job: ```scancel <JOB_ID> ``` If you spot an error mid-run
+- Efficiency Check: ```seff <JOB_ID>```
+
+💡 **Biohack**: Run seff after a job finishes. If you requested 64GB but only used 4GB, you are wasting resources and slowing down the queue for everyone. Mastering your memory requests is the mark of a true HPC pro.
+`.
+.
+.
 Maintained with ☕ by @MonicaCabreraP
 
 
