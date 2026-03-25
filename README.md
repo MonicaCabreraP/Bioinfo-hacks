@@ -184,7 +184,39 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 - The "Starting Grid" (**Estimated Start**): Run squeue --job <JOB_ID> --start to see when Slurm thinks you will actually start.
 
 - The "Dry Run" (**Syntax Check**): Use sbatch --test-only submit_job.sh to check for script errors without waiting in the queue.
-.
+
+## ⚙️ 2.5 The "Multiverse" Strategy (Job Arrays)
+If sbatch is the Autopilot, Job Arrays are the fleet management system. Instead of submitting 50 separate jobs for 50 subjects (and clogging the queue), you submit one script that spawns 50 sub-tasks.
+
+💡 **The Power Move**: ```SLURM_ARRAY_TASK_ID```. Each "sub-job" gets a unique ID. You can use this ID to pick a specific file from a list. This is the secret to processing Patients and Controls in parallel without mixing them.
+
+**The Template (Array Edition)**:
+```Bash
+#SBATCH --array=1-50%10          # Launch 50 jobs, but only 10 at a time (Concurrency)
+#SBATCH --output=logs/task_%A_%a.out  # %A = Master ID, %a = Array Index
+
+# 1. Create a simple text file with your subject IDs (e.g., subjects.txt)
+# 2. Use 'sed' to grab the line corresponding to the current Task ID
+SUBJECT=$(sed -n "${SLURM_ARRAY_TASK_ID}p" subjects.txt)
+   
+echo "Running analysis for subject: $SUBJECT"
+python analysis_script.py --input data/${SUBJECT}_T0.nii.gz
+```
+
+❓ **Why this adds value** (The "Pro" Perspective): 
+
+- *Safety First*: If you have disparate groups (like your Healthy Controls vs T0 Patients), you can run them in two separate arrays or use a mapping file to ensure the logic never crosses paths.
+
+- *Merciless Efficiency*: If task #12 fails, you don't need to resubmit everything. You just fix the issue and run ```sbatch --array=12 submit_script.sh.```
+
+- *Queue Karma*: Sysadmins prefer one array of 1000 tasks over 1000 individual jobs. It keeps the Slurm scheduler breathing easy.
+
+## 🏎️ 2.6 The "Pit Stop" Dashboard (Post-Run Analytics)
+Once the race is over, a pro doesn't just look at the results; they look at the telemetry.
+
+- The Efficiency Audit: ```seff <JOB_ID>``` Run this on your Array ID. If your CPU efficiency is <10%, you are requesting too many cores for a single-threaded task. If your RAM efficiency is <20%, you're "squatting" on memory that others could use.
+
+- The History Book: ```sacct -j <JOB_ID> --format=JobName,State,Elapsed,MaxRSS```. This gives you a clean table of how much memory each subject actually used. Use this data to calibrate your next "Flight Plan.".
 
 .
 
