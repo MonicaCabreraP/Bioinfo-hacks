@@ -110,7 +110,7 @@ This creates a stable, permanent drive on your desktop.
    2. **To Disconnect**: Type ```diskutil unmount force ~/hpc```
    (Tip: Use this if the folder looks empty or the connection "freezes" after your Mac wakes up from sleep).
 
-## 🏆 **The Result**: Your HPC is now a native hard drive on your desktop. > Forget the terminal for a second—you can now browse cluster folders, double-click to open PDFs, and preview UMAP plots instantly in your local apps.
+### 🏆 **The Result**: Your HPC is now a native hard drive on your desktop. > Forget the terminal for a second—you can now browse cluster folders, double-click to open PDFs, and preview UMAP plots instantly in your local apps.
 
 #Full GUI access with zero manual scp commands. 🏎️💨
 
@@ -162,10 +162,20 @@ module load <dependency_name>
 # Replace this with your actual command (Python, R, Nextflow, etc.)
 python my_script.py --input data/sample_01.txt --threads 4
 ```
+
 2. Submit the job to the cluster:
 ```Bash
 sbatch submit_job.sh
 ```
+   ❓ **How to calculate your Resource Requests?** Since Slurm will kill your job the second it hits the time or memory limit, you need a strategy:
+
+   - The Time Buffer (20% Rule): Never request the exact time you think it will take. If your script usually takes 10 hours, request 12:00:00. This safety margin prevents crashes due to temporary network or disk slowness.
+
+   - Choosing the Partition: Most clusters categorize "lanes" by time (e.g., short for <24h, long for >24h). Run sinfo to see the available partitions and their time limits on your specific cluster.
+
+- Memory is Hard: If you don't know how much RAM you need, start high (e.g., 32G) for a test run, then check the actual usage (see step 2.3) to optimize for the real production run.
+
+
 ## 🏎️ 2.3 Monitoring the Race (The Pit Wall)
 Once submitted, you need to track your performance to ensure you aren't "crashing":
 
@@ -174,9 +184,46 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 - Efficiency Check: ```seff <JOB_ID>```
 
 💡 **Biohack**: Run seff after a job finishes. If you requested 64GB but only used 4GB, you are wasting resources and slowing down the queue for everyone. Mastering your memory requests is the mark of a true HPC pro.
-`.
+
+## 🚀 2.4 Pro-Hacks for the Finish Line
+To truly master the cluster, you need to automate the "boring" parts: checking the status and organizing your files.
+
+- *The "Automatic Crew Chief"* (**Email Notifications**): Don't waste time running squeue every 10 minutes. Tell Slurm to send you an email when the "race" starts, ends, or if it crashes.
+
+   Add these to your #SBATCH header:
+   ```
+   #SBATCH --mail-type=BEGIN,END,FAIL    # Notifications for Start, End, and Failure
+   #SBATCH --mail-user=your.email@example.com
+   ```
+
+- *The "Clean Garage"* (**Log Management**)
+   By default, Slurm dumps logs in your main folder, creating a mess. Professional bioinformaticians keep their "garage" clean by redirecting logs.
+
+   - Create a folder: mkdir -p logs
+   - Update your header:
+   ```
+   #SBATCH --output=logs/%x_%j.out      # %x = job name, %j = job ID
+   #SBATCH --error=logs/%x_%j.err       # Separate error file for easier debugging
+   ```
+
+- *The "Starting Grid"* (**Estimated Start Time**)
+   If your job is stuck in "Pending" (PD) and you want to know when it will actually start:
+   ```
+   squeue --job <JOB_ID> --start
+   ```
+   It gives you an estimated start date and time based on current cluster traffic.
+
+- *The "Dry Run"* (**Syntax Check**)
+   Check if your script is valid without actually entering the queue:
+   ```
+   sbatch --test-only submit_job.sh
+   ```
 .
+
 .
+
+.
+
 Maintained with ☕ by @MonicaCabreraP
 
 
