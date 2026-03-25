@@ -139,42 +139,33 @@ Once granted, launch your interactive shell on that reserved node:
 ```Bash
 srun --pty bash
 ```
+**Pro-Tip** (The Live Look): While your salloc session is running, you can open a second terminal, SSH into that specific node (e.g., ssh node042), and run top -u your_username. This lets you see exactly how much RAM your process is burning in real-time.
 
 ## 📝 2.2 The "Autopilot" (Batch Job Submission)
 For production-scale analysis, you don't want to stay connected to the terminal. You create a submission script and let the cluster handle the heavy lifting while you focus on other tasks.
 
-1. Create your script (e.g., submit_job.sh) and paste this template:
+1. The Template:
 ```Bash
 #!/bin/bash
 #SBATCH --job-name=my_analysis        # Name of your job
-#SBATCH --output=logs/%j_res.log      # Standard output/error log (%j = Job ID)
-#SBATCH --partition=short             # Partition/Queue (e.g., short, long, gpu)
+#SBATCH --output=logs/%j_res.log      # Log file (%j = Job ID)
+#SBATCH --partition=short             # Partition/Queue (e.g., short, long)
 #SBATCH --ntasks=1                    # Number of tasks
-#SBATCH --cpus-per-task=4             # Number of CPU cores per task
-#SBATCH --mem=16G                     # Memory (RAM) per node
+#SBATCH --cpus-per-task=4             # CPU cores
+#SBATCH --mem=16G                     # RAM per node
 #SBATCH --time=04:00:00               # Time limit (HH:MM:SS)
 
-# 1. Load the required environment (Tcl modules)
 module load <software_name>
-module load <dependency_name>
-
-# 2. Run your analysis
-# Replace this with your actual command (Python, R, Nextflow, etc.)
-python my_script.py --input data/sample_01.txt --threads 4
+python my_script.py # Replace this with your actual command (Python, R, Nextflow, etc.)
 ```
 
 2. Submit the job to the cluster:
 ```Bash
 sbatch submit_job.sh
 ```
-   ❓ **How to calculate your Resource Requests?** Since Slurm will kill your job the second it hits the time or memory limit, you need a strategy:
+   ❓ **How to calculate your Resources?** The 20% Rule: If your script takes 10h, request 12:00:00. This buffer prevents "Death by Timeout."
 
-   - The Time Buffer (20% Rule): Never request the exact time you think it will take. If your script usually takes 10 hours, request 12:00:00. This safety margin prevents crashes due to temporary network or disk slowness.
-
-   - Choosing the Partition: Most clusters categorize "lanes" by time (e.g., short for <24h, long for >24h). Run sinfo to see the available partitions and their time limits on your specific cluster.
-
-- Memory is Hard: If you don't know how much RAM you need, start high (e.g., 32G) for a test run, then check the actual usage (see step 2.3) to optimize for the real production run.
-
+Memory Strategy: If you don't know the RAM, start high (e.g., 32G), run a test, and then use the "Pit Wall" (Step 2.3) to downsize.
 
 ## 🏎️ 2.3 Monitoring the Race (The Pit Wall)
 Once submitted, you need to track your performance to ensure you aren't "crashing":
@@ -186,38 +177,13 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 💡 **Biohack**: Run seff after a job finishes. If you requested 64GB but only used 4GB, you are wasting resources and slowing down the queue for everyone. Mastering your memory requests is the mark of a true HPC pro.
 
 ## 🚀 2.4 Pro-Hacks for the Finish Line
-To truly master the cluster, you need to automate the "boring" parts: checking the status and organizing your files.
+- The "Automatic Crew Chief" (**Email notification**): Add #SBATCH --mail-type=BEGIN,END,FAIL and #SBATCH --mail-user=your@email.com to get notified when the race starts or crashes.
 
-- *The "Automatic Crew Chief"* (**Email Notifications**): Don't waste time running squeue every 10 minutes. Tell Slurm to send you an email when the "race" starts, ends, or if it crashes.
+- The "Clean Garage" (**Log Management**): Create a folder mkdir -p logs and use #SBATCH --output=logs/%x_%j.out to keep your workspace tidy.
 
-   Add these to your #SBATCH header:
-   ```bash
-   #SBATCH --mail-type=BEGIN,END,FAIL    # Notifications for Start, End, and Failure
-   #SBATCH --mail-user=your.email@example.com
-   ```
+- The "Starting Grid" (**Estimated Start**): Run squeue --job <JOB_ID> --start to see when Slurm thinks you will actually start.
 
-- *The "Clean Garage"* (**Log Management**)
-   By default, Slurm dumps logs in your main folder, creating a mess. Professional bioinformaticians keep their "garage" clean by redirecting logs.
-
-   - Create a folder: mkdir -p logs
-   - Update your header:
-   ```bash
-   #SBATCH --output=logs/%x_%j.out      # %x = job name, %j = job ID
-   #SBATCH --error=logs/%x_%j.err       # Separate error file for easier debugging
-   ```
-
-- *The "Starting Grid"* (**Estimated Start Time**)
-   If your job is stuck in "Pending" (PD) and you want to know when it will actually start:
-   ```bash
-   squeue --job <JOB_ID> --start
-   ```
-   It gives you an estimated start date and time based on current cluster traffic.
-
-- *The "Dry Run"* (**Syntax Check**)
-   Check if your script is valid without actually entering the queue:
-   ```bash
-   sbatch --test-only submit_job.sh
-   ```
+- The "Dry Run" (**Syntax Check**): Use sbatch --test-only submit_job.sh to check for script errors without waiting in the queue.
 .
 
 .
