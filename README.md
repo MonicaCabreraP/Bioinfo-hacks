@@ -31,7 +31,7 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
 1. Open (or create) the file: ```vim ~/.ssh/config```
    
 2. Press i to insert and paste this universal template:
-     ```
+   ```bash
     Host my_cluster 
         HostName hpc.your-institute.edu
         User your_username
@@ -79,7 +79,7 @@ This creates a stable, permanent drive on your desktop.
 ⚠️ The "Security Hurdle": Modern macOS (Intel & Silicon) will block necessary extensions by default. This process requires a system restart and a one-time security tweak.
 
 1. Install tools via Terminal:
-   ```Bash
+   ```bash
    brew install --cask macfuse
    brew install gromgit/fuse/sshfs
    ```
@@ -95,14 +95,14 @@ This creates a stable, permanent drive on your desktop.
    2. Go to System Settings > Privacy & Security and click "Allow" for the macFUSE extension.
 
 4. Mount the drive:
-   ```Bash
+   ```bash
    mkdir ~/hpc
    sshfs my_cluster:/path ~/hpc
    ```
 5. Make it permanent 
-   ```
+   ```bash
    vim ~/.zshrc
-   alias **hpc**='sshfs my_cluster:/path ~/hpc '
+   alias hpc='sshfs my_cluster:/path ~/hpc '
    source ~/.zshrc
    ```
 6. Usage & Maintenance
@@ -191,7 +191,7 @@ To truly master the cluster, you need to automate the "boring" parts: checking t
 - *The "Automatic Crew Chief"* (**Email Notifications**): Don't waste time running squeue every 10 minutes. Tell Slurm to send you an email when the "race" starts, ends, or if it crashes.
 
    Add these to your #SBATCH header:
-   ```
+   ```bash
    #SBATCH --mail-type=BEGIN,END,FAIL    # Notifications for Start, End, and Failure
    #SBATCH --mail-user=your.email@example.com
    ```
@@ -201,21 +201,21 @@ To truly master the cluster, you need to automate the "boring" parts: checking t
 
    - Create a folder: mkdir -p logs
    - Update your header:
-   ```
+   ```bash
    #SBATCH --output=logs/%x_%j.out      # %x = job name, %j = job ID
    #SBATCH --error=logs/%x_%j.err       # Separate error file for easier debugging
    ```
 
 - *The "Starting Grid"* (**Estimated Start Time**)
    If your job is stuck in "Pending" (PD) and you want to know when it will actually start:
-   ```
+   ```bash
    squeue --job <JOB_ID> --start
    ```
    It gives you an estimated start date and time based on current cluster traffic.
 
 - *The "Dry Run"* (**Syntax Check**)
    Check if your script is valid without actually entering the queue:
-   ```
+   ```bash
    sbatch --test-only submit_job.sh
    ```
 .
