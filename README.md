@@ -251,6 +251,68 @@ sbatch --dependency=afterany:$SECOND_GEAR create_report.sh
 
 ⚠️ **The Reality Check**: While this is powerful, Slurm doesn't "know" if a specific sample failed inside the array. This "manual" orchestration is exactly why we eventually move to Nextflow.
 
+## ⚙️ 2.8 The "Chassis" Config (Pro Folder Structure)
+
+💡 **The Hack**: Don't let your scripts live in the same place as your Terabytes of data. One accidental ```rm -rf``` in the wrong directory could cost you months of work. Separating "code" from "storage" is what distinguishes a pro from an amateur.
+
+In most HPC infrastructures, you have three distinct units: 
+
+| Storage Unit | Variable | The "Hack" | Backup? |
+| :--- | :--- | :--- | :--- |
+| **Home** | `$HOME` | **The Blueprints:** Scripts, `.sh` files, Nextflow configs, and metadata. | ✅ YES |
+| **Data** | `$DATA` | **The Warehouse:** Raw FASTQ files and consolidated final results. | ⚠️ On Request |
+| **Scratch**| `$SCRATCH`| **The Workshop:** High-speed I/O for `work/` dirs and temp files. | ❌ NO |
+
+## 🛡️ 2.9 The "Proxy" Shield (Symbolic Link Safety)
+
+💡 **The Hack**: Never run your analysis directly inside your $DATA warehouse. If you make a typo in a cleanup script ```rm -rf *```, you could wipe out your entire project. Instead, use *Symbolic Links* (shortcuts) to create a "virtual" copy of your data in your working directory.
+
+❓ Why this is a Pro-Move:
+   - Safety: If you delete the link, the original 500GB file in $DATA remains untouched.
+   - Efficiency: A symbolic link takes 0 bytes of disk space.
+   - Cleanliness: You can keep your scripts in $HOME but "see" the data as if it were right there.
+
+🛠️ How to set it up:
+Instead of copying heavy files, create a link (shortcut):
+```Bash
+# Syntax: ln -s /path/to/real_data /path/to/shortcut
+ln -s $DATA/<project_name>/raw_data ~/<project_name>/inputs
+```
+
+## ⏱️ 2.10 The "Telemetry" Audit (Computing Hours)
+💡 The Hack: Do you want to know how much that analysis actually cost? Don't just trust the time you requested in the #SBATCH header; calculate the real CPU-Hour consumption by injecting this "black box" block at the end of your scripts.
+
+**The Formula:** $$\text{CPU-Hours} = \text{Allocated CPUs} \times \text{Real Execution Time (h)}$$
+
+Add this block to the end of your Slurm script to get the telemetry data directly in your log:
+```Bash
+# --- START OF TELEMETRY BLOCK ---
+start_time=$(date +%s)
+
+# >>> RUN YOUR SCIENCE HERE (Python, R, Nextflow, TrimGalore...) <<<
+
+end_time=$(date +%s)
+elapsed=$((end_time - start_time))
+cpu_hours=$(echo "scale=2; ($elapsed / 3600) * $SLURM_CPUS_PER_TASK" | bc)
+
+echo "----------------------------------------------------"
+echo "🏁 RACE LOG | Project: X"
+echo "CPUs: $SLURM_CPUS_PER_TASK | RAM: $SLURM_MEM_PER_NODE"
+echo "Total Consumption: $cpu_hours CPU-Hours"
+echo "----------------------------------------------------"
+# --- END OF TELEMETRY BLOCK ---
+```
+
+## 📊 2.11 Post-Race Analytics (Historical Tracking)
+If you need to report how much you’ve spent in the last month for a specific project, use the Slurm "flight recorder" command:
+
+Total consumption for the current month:
+```Bash
+sacct --starttime $(date +%Y-%m-01) --format=JobID,JobName,CPUTime,Elapsed,State | grep "X"
+```
+
+.
+
 .
 
 .
