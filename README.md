@@ -10,10 +10,10 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 
 ## 📑 Roadmap of Hacks
 
-### 🏎️ [Phase I: Connectivity & Environment](./01-Connectivity-and-Environment/README.md)
-* [1.1 One-Word Login (SSH Aliases)](./01-Connectivity-and-Environment/README.md#11-the-one-word-login-ssh-aliases)
-* [1.2 Passwordless Entry (SSH Keys)](./01-Connectivity-and-Environment/README.md#12-level-up-passwordless-entry-ssh-keys)
-* [1.3 Mounting the Cluster](./01-Connectivity-and-Environment/README.md#13-mounting-the-cluster-as-a-local-drive)
+### 🏎️ [Phase I: Connectivity & Environment](./01-Connectivity-and-Environment/README.md#phase1)
+* [1.1 One-Word Login (SSH Aliases)](./01-Connectivity-and-Environment/README.md#ssh-alias)
+* [1.2 Passwordless Entry (SSH Keys)](./01-Connectivity-and-Environment/README.md#ssh-keys)
+* [1.3 Mounting the Cluster](./01-Connectivity-and-Environment/README.md#ssh-mount)
 
 ### ⚙️ [Phase II: HPC Data Management](./02-HPC-Data-Management/README.md)
 * [2.1 Interactive Debugging (salloc)](./02-HPC-Data-Management/README.md#21-the-under-the-hood-debugging-interactive-salloc)
