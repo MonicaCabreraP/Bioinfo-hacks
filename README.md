@@ -16,12 +16,12 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 * [**1.3 Mounting the Cluster**](#13-mounting-the-cluster-as-a-local-drive) – Browsing HPC files like a local USB drive.
 
 #### ⚙️ Phase II: The Gearbox (HPC Execution)
-* [**2.1 Interactive Debugging**](#21-the-under-the-hood-debugging-interactive-salloc) – Using `salloc` for real-time testing.
-* [**2.2 Batch submission**](#22-the-autopilot-batch-job-submission) – The universal `sbatch` template.
-* [**2.3 Monitorin efficiency**](#23-monitoring-the-race-the-pit-wall) – Monitoring efficiency with `seff` and `sacct`.
-* [**2.5 Job Arrays**](#25-the-multiverse-strategy-job-arrays) – Scaling to 100s of samples in parallel.
-* [**2.7 Job Dependencies**](#27-the-chained-autopilot-job-dependencies) – Orchestrating multi-step pipelines with dependencies.
-
+* [**2.1 Interactive Debugging**](#21-the-under-the-hood-debugging-interactive-salloc)
+* [**2.2 Batch Autopilot**](#22-the-autopilot-batch-job-submission)
+* [**2.3 The Pit Wall**](#23-monitoring-the-race-the-pit-wall)
+* [**2.5 Job Arrays**](#25-the-multiverse-strategy-job-arrays)
+* [**2.7 Chained Autopilot**](#27-the-chained-autopilot-job-dependencies)
+  
 #### 🚀 Phase III: The Autopilot (Nextflow & Science)
 * **Nextflow Foundations** (Coming Soon) – Moving from manual Slurm scripts to **Seqera** workflows.
 * **smRNA-seq Pipeline** (Coming Soon) – From Raw Reads to Differential Expression using `nf-core/smrnaseq`.
