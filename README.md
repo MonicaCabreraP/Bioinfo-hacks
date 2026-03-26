@@ -19,7 +19,9 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 * [**2.1 Interactive Debugging**](#salloc-debug) – Using `salloc`.
 * [**2.2 Batch Autopilot**](#sbatch-template) – The `sbatch` template.
 * [**2.3 The Pit Wall**](#hpc-efficiency) – Efficiency with `seff`.
+* [**2.4 Pro-Hacks**](#hpc-pro-hacks) – Email alerts, logs, and dry-runs.
 * [**2.5 Job Arrays**](#job-arrays) – Scaling samples.
+* [**2.6 Pit Stop Dashboard**](#hpc-post-run) – Post-run analytics and history.
 * [**2.7 Chained Autopilot**](#job-dependencies) – Orchestrating with dependencies.
 
 #### 🚀 Phase III: The Autopilot (Nextflow & Science)
