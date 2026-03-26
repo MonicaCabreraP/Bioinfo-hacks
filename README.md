@@ -218,6 +218,28 @@ Once the race is over, a pro doesn't just look at the results; they look at the 
 
 - The History Book: ```sacct -j <JOB_ID> --format=JobName,State,Elapsed,MaxRSS```. This gives you a clean table of how much memory each subject actually used. Use this data to calibrate your next "Flight Plan.".
 
+## ⚙️ 2.7 The "Chained Autopilot" (Job Dependencies)
+If Job Arrays are the gearbox, *Dependencies* are your flight plan for multi-stage journeys. Stop waiting for your Mapping to finish to manually launch the Quantification.
+
+💡 **The Hack**: Capture the Job ID of your first task and tell Slurm to start the next one only if the first one finishes successfully.
+
+The Wrapper Script Template (run_pipeline.sh):
+```Bash
+#!/bin/bash
+# 1. Start the Alignment Array
+FIRST_GEAR=$(sbatch --parsable mapping_array.sh)
+echo "Mapping started: $FIRST_GEAR"
+
+# 2. Start the Quantification (Only after Mapping is 'ok')
+SECOND_GEAR=$(sbatch --parsable --dependency=afterok:$FIRST_GEAR quant_array.sh)
+echo "Quantification queued: $SECOND_GEAR"
+
+# 3. Start the Summary Report (Even if some parts failed, using afterany)
+sbatch --dependency=afterany:$SECOND_GEAR create_report.sh
+```
+
+⚠️ **The Reality Check**: While this is powerful, Slurm doesn't "know" if a specific sample failed inside the array. This "manual" orchestration is exactly why we eventually move to Nextflow.
+
 .
 
 .
