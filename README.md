@@ -19,7 +19,7 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 *Managing the engine, protecting data, and auditing resources.*
 
 * [2.1 Interactive Debugging (salloc)](./02-HPC-Data-Management/README.md#salloc)
-* [2.2 Batch Autopilot (sbatch)](./02-HPC-Data-Management/README.md#sbatch)
+* [2.2 Batch Autopilot (sbatch)](./02-HPC-Data-Management/README.md#sbatch-template)
 * [2.3 Monitoring the Race (The Pit Wall)](./02-HPC-Data-Management/README.md#monitoring)
 * [2.4 Pro-Hacks (Email, Logs, Dry-runs)](./02-HPC-Data-Management/README.md#pro-hacks)
 * [2.5 Job Arrays (Scaling Samples)](./02-HPC-Data-Management/README.md#job-arrays)
