@@ -51,7 +51,7 @@ sbatch submit_job.sh
 
 Memory Strategy: If you don't know the RAM, start high (e.g., 32G), run a test, and then use the "Pit Wall" (Step 2.3) to downsize.
 
-## 🏎️ 2.3 Monitoring the Race (The Pit Wall) <a name="hpc-efficiency"></a>
+## 🏎️ 2.3 Monitoring the Race (The Pit Wall) <a name="monitoring"></a>
 Once submitted, you need to track your performance to ensure you aren't "crashing":
 
 - Check the Queue: ```squeue -u your_username``` To see if your job is Pending or Running
@@ -60,7 +60,7 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 
 💡 **Biohack**: Run seff after a job finishes. If you requested 64GB but only used 4GB, you are wasting resources and slowing down the queue for everyone. Mastering your memory requests is the mark of a true HPC pro.
 
-## 🚀 2.4 Pro-Hacks for the Finish Line <a name="hpc-pro-hacks"></a>
+## 🚀 2.4 Pro-Hacks for the Finish Line <a name="pro-hacks"></a>
 - The "Automatic Crew Chief" (**Email notification**): Add #SBATCH --mail-type=BEGIN,END,FAIL and #SBATCH --mail-user=your@email.com to get notified when the race starts or crashes.
 
 - The "Clean Garage" (**Log Management**): Create a folder mkdir -p logs and use #SBATCH --output=logs/%x_%j.out to keep your workspace tidy.
@@ -95,14 +95,14 @@ python analysis_script.py --input data/${SUBJECT}_T0.nii.gz
 
 - *Queue Karma*: Sysadmins prefer one array of 1000 tasks over 1000 individual jobs. It keeps the Slurm scheduler breathing easy.
 
-## 🏎️ 2.6 The "Pit Stop" Dashboard (Post-Run Analytics) <a name="hpc-post-run"></a>
+## 🏎️ 2.6 The "Pit Stop" Dashboard (Analytics) <a name="analytics"></a>
 Once the race is over, a pro doesn't just look at the results; they look at the telemetry.
 
 - The Efficiency Audit: ```seff <JOB_ID>``` Run this on your Array ID. If your CPU efficiency is <10%, you are requesting too many cores for a single-threaded task. If your RAM efficiency is <20%, you're "squatting" on memory that others could use.
 
 - The History Book: ```sacct -j <JOB_ID> --format=JobName,State,Elapsed,MaxRSS```. This gives you a clean table of how much memory each subject actually used. Use this data to calibrate your next "Flight Plan.".
 
-## ⚙️ 2.7 The "Chained Autopilot" (Job Dependencies) <a name="job-dependencies"></a>
+## ⚙️ 2.7 The "Chained Autopilot" (Dependencies) <a name="dependencies"></a>
 If Job Arrays are the gearbox, *Dependencies* are your flight plan for multi-stage journeys. Stop waiting for your Mapping to finish to manually launch the Quantification.
 
 💡 **The Hack**: Capture the Job ID of your first task and tell Slurm to start the next one only if the first one finishes successfully.
@@ -124,7 +124,7 @@ sbatch --dependency=afterany:$SECOND_GEAR create_report.sh
 
 ⚠️ **The Reality Check**: While this is powerful, Slurm doesn't "know" if a specific sample failed inside the array. This "manual" orchestration is exactly why we eventually move to Nextflow.
 
-## ⚙️ 2.8 The "Chassis" Config (Pro Folder Structure)
+## ⚙️ 2.8 The "Chassis" Config (Folder Structure) <a name="storage-chassis"></a>
 
 💡 **The Hack**: Don't let your scripts live in the same place as your Terabytes of data. One accidental ```rm -rf``` in the wrong directory could cost you months of work. Separating "code" from "storage" is what distinguishes a pro from an amateur.
 
@@ -136,7 +136,7 @@ In most HPC infrastructures, you have three distinct units:
 | **Data** | `$DATA` | **The Warehouse:** Raw FASTQ files and consolidated final results. | ⚠️ On Request |
 | **Scratch**| `$SCRATCH`| **The Workshop:** High-speed I/O for `work/` dirs and temp files. | ❌ NO |
 
-## 🛡️ 2.9 The "Proxy" Shield (Symbolic Link Safety)
+## 🛡️ 2.9 The "Proxy" Shield (Symbolic Links) <a name="symlinks"></a>
 
 💡 **The Hack**: Never run your analysis directly inside your $DATA warehouse. If you make a typo in a cleanup script ```rm -rf *```, you could wipe out your entire project. Instead, use *Symbolic Links* (shortcuts) to create a "virtual" copy of your data in your working directory.
 
@@ -152,7 +152,7 @@ Instead of copying heavy files, create a link (shortcut):
 ln -s $DATA/<project_name>/raw_data ~/<project_name>/inputs
 ```
 
-## ⏱️ 2.10 The "Telemetry" Audit (Computing Hours)
+## ⏱️ 2.10 The "Telemetry" Audit (CPU-Hours) <a name="telemetry"></a>
 💡 The Hack: Do you want to know how much that analysis actually cost? Don't just trust the time you requested in the #SBATCH header; calculate the real CPU-Hour consumption by injecting this "black box" block at the end of your scripts.
 
 **The Formula:** $$\text{CPU-Hours} = \text{Allocated CPUs} \times \text{Real Execution Time (h)}$$
@@ -176,7 +176,7 @@ echo "----------------------------------------------------"
 # --- END OF TELEMETRY BLOCK ---
 ```
 
-## 📊 2.11 Post-Race Analytics (Historical Tracking)
+## 📊 2.11 Post-Race Analytics (Historical) <a name="history"></a>
 If you need to report how much you’ve spent in the last month for a specific project, use the Slurm "flight recorder" command:
 
 Total consumption for the current month:
