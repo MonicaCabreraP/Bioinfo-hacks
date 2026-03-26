@@ -4,18 +4,27 @@ Welcome! This repository is a living collection of the **"Quality of Life" (QoL)
 
 During my PhD in Bioinformatics, I spent years optimizing my analytical stack to handle high-throughput Omics within HPC infrastructures. Now, I am re-deploying that expertise to build the foundational infrastructure for two specialized platforms (Genomics & Cytometry) from scratch. 
 
-If you are new to bioinformatics, this repository is for you. My goal is to share these battle-tested tips across the entire stack: from navigating the **HPC environment** and running **Nextflow pipelines** to processing diverse data—including **Spectral Cytometry**, **Single-Cell**, **RNA-seq**, and **smallRNA**. Finally, I’ll show how I turn that data into high-impact visualizations to generate **client reports**, providing a clear starting point for your own analytical journey.
+If you are new to bioinformatics, this repository is for you. My goal is to share these battle-tested tips across the entire stack: from navigating the **HPC environment** and running **Nextflow pipelines**. Finally, I’ll show how I turn that data into high-impact visualizations to generate **client reports**, providing a clear starting point for your own analytical journey.
 
 ---
 
 ## 📑 Roadmap of Hacks
-1. [HPC: Easy Login](#1-hpc-part-i---the-ignition-easy-login)
-2. [HPC: Submitting a Job](#2-hpc-part-ii---the-gearbox-submitting-a-job)
-3. [Nextflow (Coming Soon)](#)
-4. [smRNA processing & Reporting (Coming Soon)](#)
-5. [RNA processing & Reporting (Coming Soon)](#)
-6. [Single-cell (BD Rhapsody) & Reporting (Coming Soon)](#)
-7. [Spectral cytometry & Reporting (Coming Soon)](#)
+
+#### 🏎️ Phase I: The Ignition (Access & Environment)
+* [**1.1 One-Word Login**](#11-the-one-word-login-ssh-aliases) – SSH Aliases to stop typing long IP addresses.
+* [**1.2 Passwordless Entry**](#12-level-up-passwordless-entry-ssh-keys) – Setting up SSH Keys for automation.
+* [**1.3 Mounting the Cluster**](#13-mounting-the-cluster-as-a-local-drive) – Browsing HPC files like a local USB drive.
+
+#### ⚙️ Phase II: The Gearbox (HPC Execution)
+* [**2.1 Interactive Debugging**](#21-the-under-the-hood-debugging-interactive-salloc) – Using `salloc` for real-time testing.
+* [**2.2 Batch submission**](#22-the-autopilot-batch-job-submission) – The universal `sbatch` template.
+* [**2.3 Monitorin efficiency**](#23-monitoring-the-race-the-pit-wall) – Monitoring efficiency with `seff` and `sacct`.
+* [**2.5 Job Arrays**](#25-the-multiverse-strategy-job-arrays) – Scaling to 100s of samples in parallel.
+* [**2.7 Job Dependencies**](#27-the-chained-autopilot-job-dependencies) – Orchestrating multi-step pipelines with dependencies.
+
+#### 🚀 Phase III: The Autopilot (Nextflow & Science)
+* **Nextflow Foundations** (Coming Soon) – Moving from manual Slurm scripts to **Seqera** workflows.
+* **smRNA-seq Pipeline** (Coming Soon) – From Raw Reads to Differential Expression using `nf-core/smrnaseq`.
 
 ---
 
