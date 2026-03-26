@@ -14,15 +14,22 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 * [1.1 One-Word Login (SSH Aliases)](./01-Connectivity-and-Environment/README.md#ssh-alias)
 * [1.2 Passwordless Entry (SSH Keys)](./01-Connectivity-and-Environment/README.md#ssh-keys)
 * [1.3 Mounting the Cluster](./01-Connectivity-and-Environment/README.md#ssh-mount)
+
 ### ⚙️ [Phase II: HPC Data Management](./02-HPC-Data-Management/README.md#phase2)
+*Managing the engine, protecting data, and auditing resources.*
+
 * [2.1 Interactive Debugging (salloc)](./02-HPC-Data-Management/README.md#salloc)
 * [2.2 Batch Autopilot (sbatch)](./02-HPC-Data-Management/README.md#sbatch)
-* [2.5 Job Arrays (Scaling)](./02-HPC-Data-Management/README.md#job-arrays)
-* [2.8 Pro Folder Structure](./02-HPC-Data-Management/README.md#storage-chassis)
-* [2.9 Symbolic Link Safety](./02-HPC-Data-Management/README.md#symlinks)
+* [2.3 Monitoring the Race (The Pit Wall)](./02-HPC-Data-Management/README.md#monitoring)
+* [2.4 Pro-Hacks (Email, Logs, Dry-runs)](./02-HPC-Data-Management/README.md#pro-hacks)
+* [2.5 Job Arrays (Scaling Samples)](./02-HPC-Data-Management/README.md#job-arrays)
+* [2.6 Post-Run Analytics (seff & sacct)](./02-HPC-Data-Management/README.md#analytics)
+* [2.7 Chained Autopilot (Dependencies)](./02-HPC-Data-Management/README.md#dependencies)
+* [2.8 Pro Folder Structure (The Chassis)](./02-HPC-Data-Management/README.md#storage-chassis)
+* [2.9 Symbolic Link Safety (The Proxy)](./02-HPC-Data-Management/README.md#symlinks)
 * [2.10 Telemetry Audit (CPU-Hours)](./02-HPC-Data-Management/README.md#telemetry)
-* [Full Phase II Index...](./02-HPC-Data-Management/README.md)
-
+* [2.11 Historical Tracking (Monthly Logs)](./02-HPC-Data-Management/README.md#history)
+* 
 ### 🚀 [Phase III: Pipelines & Automation](./03-Pipelines-and-Automation/README.md)
 * [Nextflow Foundations](./03-Pipelines-and-Automation/README.md) (Coming Soon)
 .
