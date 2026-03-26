@@ -11,21 +11,21 @@ If you are new to bioinformatics, this repository is for you. My goal is to shar
 ## 📑 Roadmap of Hacks
 
 #### 🏎️ Phase I: The Ignition (Access & Environment)
-* [**1.1 One-Word Login**](#11-the-one-word-login-ssh-aliases) – SSH Aliases to stop typing long IP addresses.
-* [**1.2 Passwordless Entry**](#12-level-up-passwordless-entry-ssh-keys) – Setting up SSH Keys for automation.
-* [**1.3 Mounting the Cluster**](#13-mounting-the-cluster-as-a-local-drive) – Browsing HPC files like a local USB drive.
+* [**1.1 One-Word Login**](#ssh-alias) – SSH Aliases.
+* [**1.2 Passwordless Entry**](#ssh-keys) – SSH Keys.
+* [**1.3 Mounting the Cluster**](#ssh-mount) – Cluster as a local drive.
 
 #### ⚙️ Phase II: The Gearbox (HPC Execution)
-* [**2.1 Interactive Debugging**](#21-the-under-the-hood-debugging-interactive-salloc)
-* [**2.2 Batch Autopilot**](#22-the-autopilot-batch-job-submission)
-* [**2.3 The Pit Wall**](#23-monitoring-the-race-the-pit-wall)
-* [**2.5 Job Arrays**](#25-the-multiverse-strategy-job-arrays)
-* [**2.7 Chained Autopilot**](#27-the-chained-autopilot-job-dependencies)
-  
-#### 🚀 Phase III: The Autopilot (Nextflow & Science)
-* **Nextflow Foundations** (Coming Soon) – Moving from manual Slurm scripts to **Seqera** workflows.
-* **smRNA-seq Pipeline** (Coming Soon) – From Raw Reads to Differential Expression using `nf-core/smrnaseq`.
+* [**2.1 Interactive Debugging**](#salloc-debug) – Using `salloc`.
+* [**2.2 Batch Autopilot**](#sbatch-template) – The `sbatch` template.
+* [**2.3 The Pit Wall**](#hpc-efficiency) – Efficiency with `seff`.
+* [**2.5 Job Arrays**](#job-arrays) – Scaling samples.
+* [**2.7 Chained Autopilot**](#job-dependencies) – Orchestrating with dependencies.
 
+#### 🚀 Phase III: The Autopilot (Nextflow & Science)
+* **Nextflow Foundations** (Coming Soon)
+* **smRNA-seq Pipeline** (Coming Soon)
+* **RNA-seq & Reporting** (Coming Soon)
 ---
 
 # 1. HPC Part I - 🔥 The Ignition: Easy Login 
@@ -34,7 +34,7 @@ Accessing an HPC cluster is only 10% of the battle. Here is the shortcut to make
 
 💡 **The Hack**: Stop using scp for every plot. By the end of this section, your cluster folders will appear in your sidebar just like a USB drive. You can browse UMAPs, double-click PDFs, and drag-and-drop files directly from your File Manager as if they were on your desktop.
 
-### 🔑 1.1 The "One-Word" Login (SSH Aliases)
+## 🔑 1.1 The "One-Word" Login (SSH Aliases) <a name="ssh-alias"></a>
 Stop typing long server addresses and port numbers every 10 minutes. Create a shortcut in your local ~/.ssh/config file (works on Mac, Linux, and Windows/WSL).
 
 1. Open (or create) the file: ```vim ~/.ssh/config```
@@ -51,7 +51,7 @@ Stop typing long server addresses and port numbers every 10 minutes. Create a sh
 
 4. Type: ``` ssh my_cluster``` . Instead of typing ssh -p X your_username@hpc.your-institute.edu, you just and you are in! (You will still need your password for now).
 
-### 🔓 1.2 Level Up: Passwordless Entry (SSH Keys)
+## 🔓 1.2 Level Up: Passwordless Entry (SSH Keys) <a name="ssh-keys"></a>
 Tired of typing your password 20 times a day? Link your workstation to the cluster securely using SSH Keys. This is not just about speed; it is the foundation for automating data transfers and pipeline triggers.
 
 1. Run ```ssh-keygen -t ed25519``` in your terminal and press Enter for all prompts to generate a secure key on your local machine.
@@ -62,7 +62,7 @@ Tired of typing your password 20 times a day? Link your workstation to the clust
 
 4. Simply type ```ssh my_cluster``` ...and you are in instantly. No password prompt, no friction. 🏎️💨
 
-### 📂 1.3 Mounting the Cluster as a Local Drive
+## 📂 1.3 Mounting the Cluster as a Local Drive <a name="ssh-mount"></a>
 The terminal is king for processing, but humans like folders. Let's make your HPC feel like a local drive.
 
 🐧 **For Linux**
@@ -130,7 +130,7 @@ Once inside, it's time to use the actual engine.
 
 To access the compute power, we use the Slurm workload manager.
 
-## 🛠️ 2.1 The "Under the Hood" Debugging (Interactive salloc)
+## 🛠️ 2.1 The "Under the Hood" Debugging (Interactive salloc) <a name="salloc-debug"></a>
 Most users only know how to send a script and wait. But what if you need to debug a command or compile a tool in real-time?
 
 💡 **The Hack**: Use *salloc* to reserve resources and work directly on a compute node. It’s like getting a VIP pass to the garage.
@@ -150,7 +150,7 @@ srun --pty bash
 ```
 **Pro-Tip** (The Live Look): While your salloc session is running, you can open a second terminal, SSH into that specific node (e.g., ssh node042), and run top -u your_username. This lets you see exactly how much RAM your process is burning in real-time.
 
-## 📝 2.2 The "Autopilot" (Batch Job Submission)
+## 📝 2.2 The "Autopilot" (Batch Job Submission) <a name="sbatch-template"></a>
 For production-scale analysis, you don't want to stay connected to the terminal. You create a submission script and let the cluster handle the heavy lifting while you focus on other tasks.
 
 1. The Template:
@@ -176,7 +176,7 @@ sbatch submit_job.sh
 
 Memory Strategy: If you don't know the RAM, start high (e.g., 32G), run a test, and then use the "Pit Wall" (Step 2.3) to downsize.
 
-## 🏎️ 2.3 Monitoring the Race (The Pit Wall)
+## 🏎️ 2.3 Monitoring the Race (The Pit Wall) <a name="hpc-efficiency"></a>
 Once submitted, you need to track your performance to ensure you aren't "crashing":
 
 - Check the Queue: ```squeue -u your_username``` To see if your job is Pending or Running
@@ -185,7 +185,7 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 
 💡 **Biohack**: Run seff after a job finishes. If you requested 64GB but only used 4GB, you are wasting resources and slowing down the queue for everyone. Mastering your memory requests is the mark of a true HPC pro.
 
-## 🚀 2.4 Pro-Hacks for the Finish Line
+## 🚀 2.4 Pro-Hacks for the Finish Line <a name="hpc-pro-hacks"></a>
 - The "Automatic Crew Chief" (**Email notification**): Add #SBATCH --mail-type=BEGIN,END,FAIL and #SBATCH --mail-user=your@email.com to get notified when the race starts or crashes.
 
 - The "Clean Garage" (**Log Management**): Create a folder mkdir -p logs and use #SBATCH --output=logs/%x_%j.out to keep your workspace tidy.
@@ -194,7 +194,7 @@ Once submitted, you need to track your performance to ensure you aren't "crashin
 
 - The "Dry Run" (**Syntax Check**): Use sbatch --test-only submit_job.sh to check for script errors without waiting in the queue.
 
-## ⚙️ 2.5 The "Multiverse" Strategy (Job Arrays)
+## ⚙️ 2.5 The "Multiverse" Strategy (Job Arrays) <a name="job-arrays"></a>
 If sbatch is the Autopilot, Job Arrays are the fleet management system. Instead of submitting 50 separate jobs for 50 subjects (and clogging the queue), you submit one script that spawns 50 sub-tasks.
 
 💡 **The Power Move**: ```SLURM_ARRAY_TASK_ID```. Each "sub-job" gets a unique ID. You can use this ID to pick a specific file from a list. This is the secret to processing Patients and Controls in parallel without mixing them.
@@ -220,14 +220,14 @@ python analysis_script.py --input data/${SUBJECT}_T0.nii.gz
 
 - *Queue Karma*: Sysadmins prefer one array of 1000 tasks over 1000 individual jobs. It keeps the Slurm scheduler breathing easy.
 
-## 🏎️ 2.6 The "Pit Stop" Dashboard (Post-Run Analytics)
+## 🏎️ 2.6 The "Pit Stop" Dashboard (Post-Run Analytics) <a name="hpc-post-run"></a>
 Once the race is over, a pro doesn't just look at the results; they look at the telemetry.
 
 - The Efficiency Audit: ```seff <JOB_ID>``` Run this on your Array ID. If your CPU efficiency is <10%, you are requesting too many cores for a single-threaded task. If your RAM efficiency is <20%, you're "squatting" on memory that others could use.
 
 - The History Book: ```sacct -j <JOB_ID> --format=JobName,State,Elapsed,MaxRSS```. This gives you a clean table of how much memory each subject actually used. Use this data to calibrate your next "Flight Plan.".
 
-## ⚙️ 2.7 The "Chained Autopilot" (Job Dependencies)
+## ⚙️ 2.7 The "Chained Autopilot" (Job Dependencies) <a name="job-dependencies"></a>
 If Job Arrays are the gearbox, *Dependencies* are your flight plan for multi-stage journeys. Stop waiting for your Mapping to finish to manually launch the Quantification.
 
 💡 **The Hack**: Capture the Job ID of your first task and tell Slurm to start the next one only if the first one finishes successfully.
